@@ -1,0 +1,56 @@
+/*plugins {
+   id 'nebula.release' version '15.2.0'
+    //id 'nebula.netflixoss' version '4.0.2'
+}*/
+
+ext.moduleName = 'camunda'
+bootJar.enabled = false
+jar {
+    enabled= true
+    manifest {
+        attributes(
+                'Implementation-Title': 'Camunda DMN POC',
+                'Implementation-Version': '$version'
+        )
+    }
+}
+//////////////////////////////////////removed once all dependencies are working with current configurations///////////////////////////////////////////////////////////
+/*ext {
+    dmnXlsxConverterVersion = '0.2.0'
+    lombokVersion = "1.18.12"
+    jaxbApiVersion = "2.3.2"
+    camundaVersion = "7.15.0-alpha2"
+    depManagementVersion = "0.5.1.RELEASE"
+    springDepManagementVersion = "1.0.11.RELEASE"
+    springPlatformVersion = "1.0.11.RELEASE"
+
+}*/
+
+/*
+dependencies {
+
+    compileOnly("org.camunda.bpm.extension.dmn:dmn-xlsx-converter:$dmnXlsxConverterVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    compileOnly "jakarta.xml.bind:jakarta.xml.bind-api:$jaxbApiVersion"
+    compileOnly "org.glassfish.jaxb:jaxb-runtime:$jaxbApiVersion"
+
+    compileOnly "org.camunda.bpm.dmn:camunda-engine-dmn:$camundaVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    compileOnly  'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly  'org.springframework.boot:spring-boot-starter-web'
+    testCompileOnly group: 'junit', name: 'junit', version: '4.12'
+}*/
+
+/*dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}*/

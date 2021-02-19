@@ -1,0 +1,123 @@
+buildscript {
+    ext {
+        dmnXlsxConverterVersion = '0.2.0'
+        lombokVersion = "1.18.12"
+        jaxbApiVersion = "2.3.2"
+        camundaVersion = "7.15.0-alpha2"
+        springDepManagementVersion = "1.0.7.RELEASE"
+        springGradlePluginVersion = "2.4.2"
+        springbootVersion = "2.3.4.RELEASE"
+
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springGradlePluginVersion")
+        classpath("io.spring.gradle:dependency-management-plugin:$springDepManagementVersion")
+        classpath ("com.netflix.nebula:nebula-release-plugin:15.3.1")
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:5.10.2"
+        //classpath "name.remal:gradle-plugins:1.2.2"
+    }
+}
+apply plugin: "nebula.release"
+
+allprojects {
+    task hello { task -> println "I'm $task.project.name" }
+    group 'com.db'
+    version '0.0.1-SNAPSHOT'
+    /*tasks.withType(JavaExec) {
+        jvmArgs = ['-Xms1024m', '-Xmx512m']
+    }
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ['-Xdoclint:none', '-Xlint:none', '-nowarn']
+    }*/
+}
+
+subprojects {
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "com.diffplug.spotless"
+    // apply plugin: "name.remal.sonarlint"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    /*task wrapper(type: Wrapper) {
+        gradleVersion = "6.7.1";
+    }*/
+    spotless {
+        format 'misc', {
+            target '*.gradle', '.gitignore', 'src/**/*.md', 'src/**/*.xml', 'src/**/*.xsd', 'src/**/*.xsl'
+            trimTrailingWhitespace()
+            indentWithSpaces()
+            endWithNewline()
+        }
+        java {
+            target 'src/**/*.java'
+            importOrder()
+            // importOrder(['java', 'javax', 'org', 'com'])
+            removeUnusedImports()
+            googleJavaFormat('1.8').aosp()
+        }
+    }
+    compileJava.dependsOn 'spotlessApply'
+
+
+    dependencies {
+        implementation platform("org.springframework.boot:spring-boot-dependencies:$springbootVersion")
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation 'org.apache.commons:commons-lang3:3.4'
+        implementation 'org.apache.logging.log4j:log4j-core:2.6.2'
+        implementation platform('org.apache.logging.log4j:log4j-api:2.12.1')
+    }
+
+}
+
+project(':application') {
+    dependencies {
+        implementation project(':admin')
+        implementation project(':camunda')
+    }
+}
+
+/*project(':admin') {
+    dependencies {
+
+    }
+}*/
+
+project(':camunda') {
+
+    dependencies {
+        implementation("org.camunda.bpm.extension.dmn:dmn-xlsx-converter:$dmnXlsxConverterVersion") {
+            exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+            exclude group: 'log4j', module: 'log4j'
+        }
+        implementation "jakarta.xml.bind:jakarta.xml.bind-api:$jaxbApiVersion"
+        implementation "org.glassfish.jaxb:jaxb-runtime:$jaxbApiVersion"
+
+        implementation "org.camunda.bpm.dmn:camunda-engine-dmn:$camundaVersion"
+
+        compileOnly "org.projectlombok:lombok:$lombokVersion"
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    }
+}

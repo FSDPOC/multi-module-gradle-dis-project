@@ -1,0 +1,4 @@
+From openjdk:8
+ADD ./camundaApp/rules/testTemplate.dmn /tmp/
+copy ./application/build/libs/application-*.jar multi-application.jar
+CMD ["java","-jar","-Dspring.profiles.active=dev","-Dserver.port=8082","multi-application.jar"]

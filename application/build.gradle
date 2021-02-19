@@ -1,0 +1,45 @@
+plugins{
+    id 'application'
+}
+
+mainClassName = "com.db.application.MultipleApplication"
+
+bootJar.enabled = true
+ext.moduleName = 'application'
+
+////////////////////////////////removed once all dependencies are working with current configurations////////////////////////////////////////
+/*
+ext {
+    dmnXlsxConverterVersion = '0.2.0'
+    lombokVersion = "1.18.12"
+    jaxbApiVersion = "2.3.2"
+    camundaVersion = "7.15.0-alpha2"
+    depManagementVersion = "0.5.1.RELEASE"
+    springDepManagementVersion = "1.0.11.RELEASE"
+    springPlatformVersion = "1.0.11.RELEASE"
+
+}
+
+dependencies {
+    compileOnly project(':admin')
+    compileOnly project(':camundaApp')
+
+    compileOnly group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.1'
+    compileOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+    compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    testCompileOnly group: 'junit', name: 'junit', version: '4.12'
+
+    compileOnly("org.camunda.bpm.extension.dmn:dmn-xlsx-converter:$dmnXlsxConverterVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    compileOnly "jakarta.xml.bind:jakarta.xml.bind-api:$jaxbApiVersion"
+    compileOnly "org.glassfish.jaxb:jaxb-runtime:$jaxbApiVersion"
+
+    compileOnly "org.camunda.bpm.dmn:camunda-engine-dmn:$camundaVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly project(':camundaApp')
+}*/
