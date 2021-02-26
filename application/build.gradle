@@ -2,7 +2,7 @@ plugins{
     id 'application'
 }
 
-mainClassName = "com.db.application.MultipleApplication"
+mainClassName = "com.db.MultipleApplication"
 
 bootJar.enabled = true
 ext.moduleName = 'application'

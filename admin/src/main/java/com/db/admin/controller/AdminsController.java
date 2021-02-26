@@ -1,6 +1,8 @@
 //
 package com.db.admin.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
@@ -10,21 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/adminapp")
+@Api(value = "Admin Controller")
 public class AdminsController {
-    String asdsad = new String();
-    // String asdsad = new String();
 
     @Autowired MessageSource messageSource;
 
     @GetMapping("/admin")
+    @ApiOperation(value = "test admin path", notes = "testing admin module controller")
     public ResponseEntity getAdmin() {
         return ResponseEntity.ok("Admin service module is active");
     }
 }
-/*
-
-public class AdminController {
-	public static void main(String[] args) {
-		System.out.println("admin main entered");
-	}
-}*/

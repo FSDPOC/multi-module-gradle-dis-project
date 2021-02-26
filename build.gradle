@@ -24,13 +24,17 @@ buildscript {
         classpath("io.spring.gradle:dependency-management-plugin:$springDepManagementVersion")
         classpath ("com.netflix.nebula:nebula-release-plugin:15.3.1")
         classpath "com.diffplug.spotless:spotless-plugin-gradle:5.10.2"
-        //classpath "name.remal:gradle-plugins:1.2.2"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"
+       // classpath "name.remal:gradle-plugins:1.2.2"
     }
 }
 apply plugin: "nebula.release"
 
 allprojects {
     task hello { task -> println "I'm $task.project.name" }
+
+    apply plugin: "org.sonarqube"
+
     group 'com.db'
     version '0.0.1-SNAPSHOT'
     /*tasks.withType(JavaExec) {
@@ -39,6 +43,15 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.compilerArgs += ['-Xdoclint:none', '-Xlint:none', '-nowarn']
     }*/
+    sonarqube {
+        properties {
+            property "sonar.projectKey", "multi-module-project"
+            property "sonar.host.url", "http://localhost:9000"
+            property "sonar.login", "ee550c27fbdec923a0f988d72bfa17ca4724853d"
+            property "sonar.verbose", "true"
+        }
+    }
+
 }
 
 subprojects {
@@ -53,10 +66,11 @@ subprojects {
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "com.diffplug.spotless"
+    apply plugin: "org.sonarqube"
     // apply plugin: "name.remal.sonarlint"
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     /*task wrapper(type: Wrapper) {
         gradleVersion = "6.7.1";
@@ -78,35 +92,52 @@ subprojects {
     }
     compileJava.dependsOn 'spotlessApply'
 
+   /* sonarqube {
+        properties {
+            property "sonar.projectKey", "FSDPOC_multi-module-gradle-dis-project"
+            property "sonar.organization", "fsdpoc"
+            property "sonar.host.url", "https://sonarcloud.io"
+        }
+    }*/
 
     dependencies {
         implementation platform("org.springframework.boot:spring-boot-dependencies:$springbootVersion")
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-web'
+
+
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         implementation 'org.apache.commons:commons-lang3:3.4'
         implementation 'org.apache.logging.log4j:log4j-core:2.6.2'
         implementation platform('org.apache.logging.log4j:log4j-api:2.12.1')
+        implementation "io.springfox:springfox-boot-starter:3.0.0"
     }
-
 }
 
 project(':application') {
     dependencies {
         implementation project(':admin')
         implementation project(':camunda')
+
+        implementation 'org.springframework.boot:spring-boot-starter-cache'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly('mysql:mysql-connector-java')
+        implementation('org.ehcache:ehcache')
+        implementation('javax.cache:cache-api')
+        //runtimeOnly 'com.h2database:h2'
     }
 }
 
-/*project(':admin') {
-    dependencies {
-
-    }
-}*/
+//project(':admin') {
+//    dependencies {
+//
+//
+//    }
+//}
 
 project(':camunda') {
-
     dependencies {
+        //compileOnly project(':application')
         implementation("org.camunda.bpm.extension.dmn:dmn-xlsx-converter:$dmnXlsxConverterVersion") {
             exclude group: 'org.slf4j', module: 'slf4j-log4j12'
             exclude group: 'log4j', module: 'log4j'
@@ -118,6 +149,5 @@ project(':camunda') {
 
         compileOnly "org.projectlombok:lombok:$lombokVersion"
         annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-
     }
 }

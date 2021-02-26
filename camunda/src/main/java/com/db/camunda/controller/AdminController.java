@@ -2,20 +2,18 @@ package com.db.camunda.controller;
 
 import com.db.camunda.response.BasicResponseMessage;
 import com.db.camunda.service.DmnTemplateService;
+import io.swagger.annotations.Api;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/camunda")
 @Slf4j
+@Api(value = "Camunda Admin Controller")
 public class AdminController {
 
     private DmnTemplateService dmnTemplateService;

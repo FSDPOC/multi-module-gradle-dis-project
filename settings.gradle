@@ -3,3 +3,16 @@ include 'admin'
 include 'camunda'
 include 'application'
 
+/*buildCache {
+    remote(HttpBuildCache) {
+        url = 'https://sonarcloud.io/cache/'
+        allowUntrustedServer = true
+    }
+}*/
+
+buildCache {
+    local {
+        directory = new File(rootDir, 'build-cache')
+        removeUnusedEntriesAfterDays = 1
+    }
+}
