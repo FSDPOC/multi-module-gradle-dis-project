@@ -119,25 +119,25 @@ project(':application') {
         implementation project(':admin')
         implementation project(':camunda')
 
-        implementation 'org.springframework.boot:spring-boot-starter-cache'
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        runtimeOnly('mysql:mysql-connector-java')
-        implementation('org.ehcache:ehcache')
-        implementation('javax.cache:cache-api')
-        //runtimeOnly 'com.h2database:h2'
+
     }
 }
 
-//project(':admin') {
-//    dependencies {
-//
-//
-//    }
-//}
+project(':admin') {
+    dependencies {
+
+        implementation 'org.springframework.boot:spring-boot-starter-cache'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        //runtimeOnly('mysql:mysql-connector-java')
+        implementation('org.ehcache:ehcache')
+        implementation('javax.cache:cache-api')
+        runtimeOnly 'com.h2database:h2'
+    }
+}
 
 project(':camunda') {
     dependencies {
-        //compileOnly project(':application')
+
         implementation("org.camunda.bpm.extension.dmn:dmn-xlsx-converter:$dmnXlsxConverterVersion") {
             exclude group: 'org.slf4j', module: 'slf4j-log4j12'
             exclude group: 'log4j', module: 'log4j'
