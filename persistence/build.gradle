@@ -1,5 +1,5 @@
 
-ext.moduleName = 'admin'
+ext.moduleName = 'persistence'
 
 bootJar.enabled = false
 jar {enabled= true}

@@ -1,5 +1,5 @@
 //
-package com.db.admin.controller;
+package com.db.controller;
 
 import com.db.persistence.ApplicationService;
 import com.db.persistence.Book;

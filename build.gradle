@@ -116,14 +116,14 @@ subprojects {
 
 project(':application') {
     dependencies {
-        implementation project(':admin')
+        implementation project(':persistence')
         implementation project(':camunda')
 
 
     }
 }
 
-project(':admin') {
+project(':persistence') {
     dependencies {
 
         implementation 'org.springframework.boot:spring-boot-starter-cache'
