@@ -23,7 +23,6 @@ Child module as entry for application to load on startup
 Child module configuration
 Docker Configuration
  
-
 Instruction and steps to execute:
 Pre-requisite: Gradle installed on local machine
 Build project with multiple modules and dependencies
